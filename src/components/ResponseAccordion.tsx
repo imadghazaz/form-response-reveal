@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Bot, ChevronDown, Copy, RefreshCcw, PenSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { marked } from "marked";
 
 interface WebhookResponse {
   title: string;
