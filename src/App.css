@@ -42,9 +42,9 @@
 }
 
 ol, ul {
-    list-style: auto;
+    list-style: auto !important;
 }
 
 li {
-    margin: 10px 0;
+    margin: 10px 0 !important;
 }
