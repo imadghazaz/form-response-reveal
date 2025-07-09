@@ -43,24 +43,29 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     }
   };
 
-  const formatContent = (content: string) => {
-    return content.split('\n').map((line, index) => {
-      if (line.startsWith('**') && line.endsWith('**')) {
-        return (
-          <p key={index} className="font-semibold text-gray-900 mt-4 first:mt-0">
-            {line.replace(/\*\*/g, '')}
-          </p>
-        );
-      }
-      if (line.trim() === '') {
-        return <div key={index} className="h-2" />;
-      }
-      return (
-        <p key={index} className="text-gray-700 leading-relaxed">
-          {line}
-        </p>
-      );
-    });
+  const markdownToHtml = (markdown: string) => {
+    let html = markdown;
+    
+    // Convert bold text (**text** -> <strong>text</strong>)
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Convert italic text (*text* -> <em>text</em>)
+    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Convert line breaks to <br> tags
+    html = html.replace(/\n/g, '<br>');
+    
+    // Convert double line breaks to paragraph breaks
+    html = html.replace(/<br><br>/g, '</p><p>');
+    
+    // Wrap in paragraph tags
+    html = `<p>${html}</p>`;
+    
+    // Clean up empty paragraphs
+    html = html.replace(/<p><\/p>/g, '');
+    html = html.replace(/<p><br><\/p>/g, '');
+    
+    return html;
   };
 
   return (
@@ -148,9 +153,10 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
                 </div>
 
                 <div className="prose prose-sm max-w-none">
-                  <div className="space-y-3">
-                    {formatContent(response.details)}
-                  </div>
+                  <div 
+                    className="space-y-3 text-gray-700 leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: markdownToHtml(response.details) }}
+                  />
                 </div>
               </div>
             </div>
