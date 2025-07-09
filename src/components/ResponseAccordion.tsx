@@ -1,7 +1,9 @@
+
 import React, { useState } from 'react';
 import { Bot, ChevronDown, Copy, RefreshCcw, PenSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
+import { marked } from 'marked';
 
 interface WebhookResponse {
   title: string;
@@ -43,81 +45,7 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
   };
 
   const markdownToHtml = (markdown: string) => {
-    let html = markdown;
-    
-    // Convert bold text (**text** -> <strong>text</strong>)
-    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // Convert italic text (*text* -> <em>text</em>)
-    html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
-    // Split into lines for processing
-    const lines = html.split('\n');
-    const processedLines = [];
-    let inList = false;
-    
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
-      
-      // Check if this line is a bullet point or numbered list item
-      if (/^[-*]\s/.test(line)) {
-        if (!inList) {
-          processedLines.push('<ul>');
-          inList = true;
-        }
-        processedLines.push(`<li>${line.replace(/^[-*]\s/, '')}</li>`);
-      } else if (/^\d+\.\s/.test(line)) {
-        if (!inList) {
-          processedLines.push('<ol>');
-          inList = true;
-        }
-        processedLines.push(`<li>${line.replace(/^\d+\.\s/, '')}</li>`);
-      } else {
-        if (inList) {
-          // Check if previous list was ul or ol
-          const lastListStart = processedLines.lastIndexOf('<ul>');
-          const lastOrderedListStart = processedLines.lastIndexOf('<ol>');
-          if (lastOrderedListStart > lastListStart) {
-            processedLines.push('</ol>');
-          } else {
-            processedLines.push('</ul>');
-          }
-          inList = false;
-        }
-        processedLines.push(line);
-      }
-    }
-    
-    // Close any remaining list
-    if (inList) {
-      const lastListStart = processedLines.lastIndexOf('<ul>');
-      const lastOrderedListStart = processedLines.lastIndexOf('<ol>');
-      if (lastOrderedListStart > lastListStart) {
-        processedLines.push('</ol>');
-      } else {
-        processedLines.push('</ul>');
-      }
-    }
-    
-    html = processedLines.join('\n');
-    
-    // Convert line breaks to <br> tags (but not within lists)
-    html = html.replace(/\n(?![<\/])/g, '<br>');
-    
-    // Convert double line breaks to paragraph breaks
-    html = html.replace(/<br><br>/g, '</p><p>');
-    
-    // Wrap in paragraph tags
-    html = `<p>${html}</p>`;
-    
-    // Clean up empty paragraphs
-    html = html.replace(/<p><\/p>/g, '');
-    html = html.replace(/<p><br><\/p>/g, '');
-    
-    // Clean up paragraphs that only contain lists
-    html = html.replace(/<p>(<[ou]l>.*?<\/[ou]l>)<\/p>/gs, '$1');
-    
-    return html;
+    return marked.parse(markdown);
   };
 
   return (
