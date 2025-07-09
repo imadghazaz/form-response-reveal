@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Bot, ChevronDown, Copy, RefreshCcw, PenSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
-import { marked } from 'marked';
 
 interface WebhookResponse {
   title: string;
@@ -44,6 +43,25 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     }
   };
 
+  const formatContent = (content: string) => {
+    return content.split('\n').map((line, index) => {
+      if (line.startsWith('**') && line.endsWith('**')) {
+        return (
+          <p key={index} className="font-semibold text-gray-900 mt-4 first:mt-0">
+            {line.replace(/\*\*/g, '')}
+          </p>
+        );
+      }
+      if (line.trim() === '') {
+        return <div key={index} className="h-2" />;
+      }
+      return (
+        <p key={index} className="text-gray-700 leading-relaxed">
+          {line}
+        </p>
+      );
+    });
+  };
 
   return (
     <div className="space-y-4">
@@ -130,10 +148,9 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
                 </div>
 
                 <div className="prose prose-sm max-w-none">
-                  <div 
-                    className="space-y-3 text-gray-700 leading-relaxed"
-                    dangerouslySetInnerHTML={{ __html: markdownToHtml(response.details) }}
-                  />
+                  <div className="space-y-3">
+                    {marked.parse(response.details)}
+                  </div>
                 </div>
               </div>
             </div>
