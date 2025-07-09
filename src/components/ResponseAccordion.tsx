@@ -43,25 +43,6 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     }
   };
 
-  const formatContent = (content: string) => {
-    return content.split('\n').map((line, index) => {
-      if (line.startsWith('**') && line.endsWith('**')) {
-        return (
-          <p key={index} className="font-semibold text-gray-900 mt-4 first:mt-0">
-            {line.replace(/\*\*/g, '')}
-          </p>
-        );
-      }
-      if (line.trim() === '') {
-        return <div key={index} className="h-2" />;
-      }
-      return (
-        <p key={index} className="text-gray-700 leading-relaxed">
-          {line}
-        </p>
-      );
-    });
-  };
 
   return (
     <div className="space-y-4">
