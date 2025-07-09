@@ -129,11 +129,10 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
                   </div>
                 </div>
 
-                <div className="prose prose-sm max-w-none">
-                  <div className="space-y-3">
-                    {marked.parse(response.details)}
-                  </div>
-                </div>
+                <div 
+                  className="prose prose-sm max-w-none space-y-3"
+                  dangerouslySetInnerHTML={{ __html: marked.parse(response.details) }}
+                />
               </div>
             </div>
           )}
