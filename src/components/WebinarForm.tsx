@@ -38,7 +38,7 @@ const WebinarForm = () => {
 
     try {
       // Simulate API call - replace with your actual webhook URL
-      const response = await fetch('/api/webhook', {
+      const response = await fetch('https://johnkh.app.n8n.cloud/webhook-test/f0c319b3-2253-4d17-8d67-5949b553bce6', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
