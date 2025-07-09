@@ -19,6 +19,7 @@ const WebinarForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [responses, setResponses] = useState<WebhookResponse[]>([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [isUserInputExpanded, setIsUserInputExpanded] = useState(true);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -157,7 +158,11 @@ const WebinarForm = () => {
             <div className="bg-white rounded-xl shadow-lg p-8">
               <div className="w-full mx-0 px-0">
                 <h2>
-                  <button className="w-full h-full outline-none flex items-start gap-6 py-5" type="button">
+                  <button 
+                    className="w-full h-full outline-none flex items-start gap-6 py-5" 
+                    type="button"
+                    onClick={() => setIsUserInputExpanded(!isUserInputExpanded)}
+                  >
                     <div className="flex-shrink-0 mt-1">
                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-blue-600">
                         <circle cx="12" cy="12" r="10"></circle>
@@ -166,7 +171,7 @@ const WebinarForm = () => {
                       </svg>
                     </div>
                     <div className="flex-1 flex flex-col text-start">
-                      <span className="text-gray-900 text-xl font-medium">
+                      <span className={`text-xl font-medium ${isUserInputExpanded ? 'text-blue-600' : 'text-gray-900'}`}>
                         <div className="flex flex-col gap-1">
                           <div className="flex items-center gap-3">
                             <div className="h-2 w-2 rounded-full bg-green-500"></div>
@@ -175,57 +180,59 @@ const WebinarForm = () => {
                         </div>
                       </span>
                     </div>
-                    <span className="text-gray-400 transform -rotate-90">
+                    <span className={`text-gray-400 transition-transform ${isUserInputExpanded ? '-rotate-90' : 'rotate-0'}`}>
                       <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none">
                         <path d="M15.5 19l-7-7 7-7" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5"></path>
                       </svg>
                     </span>
                   </button>
                 </h2>
-                <section>
-                  <div className="py-2 ml-12 pb-8 pt-2">
-                    <section className="flex w-full flex-col gap-4">
-                      <div className="w-full">
-                        <div className="flex w-full flex-col gap-4">
-                          <div className="flex flex-col gap-4">
-                            <div>
-                              <div className="relative w-full">
-                                <div className="group flex flex-col w-full">
-                                  <Label className="text-sm text-gray-500 pb-1.5">
-                                    Your Webinar Topic Framing Eg."10 Minute Workout Routines" *
-                                  </Label>
-                                  <div className="w-full inline-flex items-center bg-gray-100 rounded-md py-2 px-3 shadow-sm">
-                                    <Textarea
-                                      value={webinarTopic}
-                                      readOnly
-                                      className="w-full bg-transparent border-none resize-none focus:outline-none text-sm min-h-[20px]"
-                                    />
+{isUserInputExpanded && (
+                  <section style={{ overflow: 'hidden' }}>
+                    <div className="py-2 ml-12 pb-8 pt-2">
+                      <section className="flex w-full flex-col gap-4">
+                        <div className="w-full">
+                          <div className="flex w-full flex-col gap-4">
+                            <div className="flex flex-col gap-4">
+                              <div>
+                                <div className="relative w-full">
+                                  <div className="group flex flex-col w-full">
+                                    <Label className="text-sm text-gray-500 pb-1.5">
+                                      Your Webinar Topic Framing Eg."10 Minute Workout Routines" *
+                                    </Label>
+                                    <div className="w-full inline-flex items-center bg-gray-100 rounded-md py-2 px-3 shadow-sm">
+                                      <Textarea
+                                        value={webinarTopic}
+                                        readOnly
+                                        className="w-full bg-transparent border-none resize-none focus:outline-none text-sm min-h-[20px]"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                            <div>
-                              <div className="relative w-full">
-                                <div className="group flex flex-col w-full">
-                                  <Label className="text-sm text-gray-500 pb-1.5">
-                                    Your Ideal Target Buyer Eg. Working Mums *
-                                  </Label>
-                                  <div className="w-full inline-flex items-center bg-gray-100 rounded-md py-2 px-3 shadow-sm">
-                                    <Textarea
-                                      value={targetBuyer}
-                                      readOnly
-                                      className="w-full bg-transparent border-none resize-none focus:outline-none text-sm min-h-[20px]"
-                                    />
+                              <div>
+                                <div className="relative w-full">
+                                  <div className="group flex flex-col w-full">
+                                    <Label className="text-sm text-gray-500 pb-1.5">
+                                      Your Ideal Target Buyer Eg. Working Mums *
+                                    </Label>
+                                    <div className="w-full inline-flex items-center bg-gray-100 rounded-md py-2 px-3 shadow-sm">
+                                      <Textarea
+                                        value={targetBuyer}
+                                        readOnly
+                                        className="w-full bg-transparent border-none resize-none focus:outline-none text-sm min-h-[20px]"
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </section>
-                  </div>
-                </section>
+                      </section>
+                    </div>
+                  </section>
+                )}
               </div>
             </div>
 
