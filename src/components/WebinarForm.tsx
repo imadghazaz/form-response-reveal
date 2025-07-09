@@ -56,6 +56,23 @@ const WebinarForm = () => {
 
       const data = await response.json();
       
+      // For demo purposes, I'll create mock responses
+      // Replace this with: setResponses(data);
+      const mockResponses: WebhookResponse[] = [
+        {
+          title: "Refined Topic + Desired Outcome",
+          details: `**Refined Topic:** Discover quick and effective ${webinarTopic} designed specifically for ${targetBuyer}. This webinar will guide attendees through simple exercises that fit easily into a hectic daily schedule.\n\n**Specific Attendee Outcome:** After applying these routines, attendees will be able to consistently complete full-body workouts in just 10 minutes a day, leading to increased energy and improved fitness without sacrificing family time.\n\n**Desired Outcome:** "I want to finally get fit and feel more energetic, even with my busy schedule—without spending hours at the gym."`
+        },
+        {
+          title: "Content Structure & Framework",
+          details: `**Hook:** Start with a relatable pain point that ${targetBuyer} face daily - lack of time for fitness.\n\n**Problem Identification:** Highlight the common struggles of maintaining fitness with a busy lifestyle.\n\n**Solution Preview:** Introduce the concept of effective 10-minute routines that deliver real results.\n\n**Social Proof:** Share success stories from other busy parents who transformed their fitness journey.`
+        },
+        {
+          title: "Marketing Angle & Positioning",
+          details: `**Primary Angle:** "Finally, fitness that fits your life - not the other way around"\n\n**Value Proposition:** Transform your energy and confidence in just 10 minutes a day\n\n**Urgency Factor:** Limited-time access to exclusive workout library\n\n**Credibility Markers:** Evidence-based routines designed by certified trainers for busy lifestyles`
+        }
+      ];
+      
       setResponses(data);
       setHasSubmitted(true);
       
@@ -99,7 +116,7 @@ const WebinarForm = () => {
                       placeholder="Type here"
                       value={webinarTopic}
                       onChange={(e) => setWebinarTopic(e.target.value)}
-                      className="min-h-[60px] resize-none"
+                      className="h-[40px] resize-none"
                       required
                     />
                   </div>
@@ -113,7 +130,7 @@ const WebinarForm = () => {
                       placeholder="Type here"
                       value={targetBuyer}
                       onChange={(e) => setTargetBuyer(e.target.value)}
-                      className="min-h-[40px] resize-none"
+                      className="h-[40px] resize-none"
                       required
                     />
                   </div>
