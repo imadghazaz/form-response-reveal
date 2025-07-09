@@ -102,4 +102,12 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  ol, ul {
+    list-style: auto !important;
+  }
+
+  li {
+    margin: 10px 0 !important;
+  }
 }

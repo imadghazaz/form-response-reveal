@@ -18,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+			listStyleType: {
+				auto: 'auto',
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
