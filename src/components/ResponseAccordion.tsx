@@ -51,20 +51,58 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     // Convert italic text (*text* -> <em>text</em>)
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
     
-    // Convert bullet points (- item -> <li>item</li>)
-    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+    // Split into lines for processing
+    const lines = html.split('\n');
+    const processedLines = [];
+    let inList = false;
     
-    // Convert numbered lists (1. item -> <li>item</li>)
-    html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i];
+      
+      // Check if this line is a bullet point or numbered list item
+      if (/^[-*]\s/.test(line)) {
+        if (!inList) {
+          processedLines.push('<ul>');
+          inList = true;
+        }
+        processedLines.push(`<li>${line.replace(/^[-*]\s/, '')}</li>`);
+      } else if (/^\d+\.\s/.test(line)) {
+        if (!inList) {
+          processedLines.push('<ol>');
+          inList = true;
+        }
+        processedLines.push(`<li>${line.replace(/^\d+\.\s/, '')}</li>`);
+      } else {
+        if (inList) {
+          // Check if previous list was ul or ol
+          const lastListStart = processedLines.lastIndexOf('<ul>');
+          const lastOrderedListStart = processedLines.lastIndexOf('<ol>');
+          if (lastOrderedListStart > lastListStart) {
+            processedLines.push('</ol>');
+          } else {
+            processedLines.push('</ul>');
+          }
+          inList = false;
+        }
+        processedLines.push(line);
+      }
+    }
     
-    // Wrap consecutive list items in <ul> tags
-    html = html.replace(/(<li>.*<\/li>)/gs, (match) => {
-      const items = match.split('</li>').filter(item => item.trim()).map(item => item + '</li>');
-      return '<ul>' + items.join('') + '</ul>';
-    });
+    // Close any remaining list
+    if (inList) {
+      const lastListStart = processedLines.lastIndexOf('<ul>');
+      const lastOrderedListStart = processedLines.lastIndexOf('<ol>');
+      if (lastOrderedListStart > lastListStart) {
+        processedLines.push('</ol>');
+      } else {
+        processedLines.push('</ul>');
+      }
+    }
     
-    // Convert line breaks to <br> tags
-    html = html.replace(/\n/g, '<br>');
+    html = processedLines.join('\n');
+    
+    // Convert line breaks to <br> tags (but not within lists)
+    html = html.replace(/\n(?![<\/])/g, '<br>');
     
     // Convert double line breaks to paragraph breaks
     html = html.replace(/<br><br>/g, '</p><p>');
@@ -77,7 +115,7 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     html = html.replace(/<p><br><\/p>/g, '');
     
     // Clean up paragraphs that only contain lists
-    html = html.replace(/<p>(<ul>.*?<\/ul>)<\/p>/gs, '$1');
+    html = html.replace(/<p>(<[ou]l>.*?<\/[ou]l>)<\/p>/gs, '$1');
     
     return html;
   };
