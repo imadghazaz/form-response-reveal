@@ -72,7 +72,7 @@ const WebinarForm = () => {
         }
       ];
       
-      setResponses(mockResponses);
+      setResponses(data);
       setHasSubmitted(true);
       
       toast({
