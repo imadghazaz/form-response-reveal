@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Bot, ChevronDown, Copy, RefreshCcw, PenSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -52,6 +51,18 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     // Convert italic text (*text* -> <em>text</em>)
     html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
     
+    // Convert bullet points (- item -> <li>item</li>)
+    html = html.replace(/^- (.+)$/gm, '<li>$1</li>');
+    
+    // Convert numbered lists (1. item -> <li>item</li>)
+    html = html.replace(/^\d+\. (.+)$/gm, '<li>$1</li>');
+    
+    // Wrap consecutive list items in <ul> tags
+    html = html.replace(/(<li>.*<\/li>)/gs, (match) => {
+      const items = match.split('</li>').filter(item => item.trim()).map(item => item + '</li>');
+      return '<ul>' + items.join('') + '</ul>';
+    });
+    
     // Convert line breaks to <br> tags
     html = html.replace(/\n/g, '<br>');
     
@@ -64,6 +75,9 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     // Clean up empty paragraphs
     html = html.replace(/<p><\/p>/g, '');
     html = html.replace(/<p><br><\/p>/g, '');
+    
+    // Clean up paragraphs that only contain lists
+    html = html.replace(/<p>(<ul>.*?<\/ul>)<\/p>/gs, '$1');
     
     return html;
   };
