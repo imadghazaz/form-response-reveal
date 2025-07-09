@@ -200,11 +200,11 @@ const WebinarForm = () => {
                                     <Label className="text-sm text-gray-500 pb-1.5">
                                       Your Webinar Topic Framing Eg."10 Minute Workout Routines" *
                                     </Label>
-                                    <div className="w-full inline-flex items-center bg-gray-100 rounded-md py-2 px-3 shadow-sm">
+                                    <div className="w-full inline-flex items-center bg-gray-200 rounded-md py-1 px-3 shadow-sm">
                                       <Textarea
                                         value={webinarTopic}
                                         readOnly
-                                        className="w-full bg-transparent border-none resize-none focus:outline-none text-sm min-h-[20px]"
+                                        className="w-full bg-transparent border-none resize-none focus:outline-none text-sm h-6"
                                       />
                                     </div>
                                   </div>
@@ -216,11 +216,11 @@ const WebinarForm = () => {
                                     <Label className="text-sm text-gray-500 pb-1.5">
                                       Your Ideal Target Buyer Eg. Working Mums *
                                     </Label>
-                                    <div className="w-full inline-flex items-center bg-gray-100 rounded-md py-2 px-3 shadow-sm">
+                                    <div className="w-full inline-flex items-center bg-gray-200 rounded-md py-1 px-3 shadow-sm">
                                       <Textarea
                                         value={targetBuyer}
                                         readOnly
-                                        className="w-full bg-transparent border-none resize-none focus:outline-none text-sm min-h-[20px]"
+                                        className="w-full bg-transparent border-none resize-none focus:outline-none text-sm h-6"
                                       />
                                     </div>
                                   </div>
