@@ -44,9 +44,6 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses 
     }
   };
 
-  const markdownToHtml = (markdown: string) => {
-    return marked.parse(markdown);
-  };
 
   return (
     <div className="space-y-4">
