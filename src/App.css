@@ -40,3 +40,11 @@
 .read-the-docs {
   color: #888;
 }
+
+ol, ul {
+    list-style: auto;
+}
+
+il {
+    margin: 10px 0;
+}
