@@ -4,7 +4,7 @@ const Form4 = () => {
   return (
     <FormTemplate 
       title="Benefits Headline"
-      webhookUrl="https://johnkh.app.n8n.cloud/webhook-test/32e5c8d6-cc4a-41db-b868-0ad745e7884e"
+      webhookUrl="https://johnkh.app.n8n.cloud/webhook/32e5c8d6-cc4a-41db-b868-0ad745e7884e"
     />
   );
 };
