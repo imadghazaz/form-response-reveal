@@ -3,8 +3,8 @@ import FormTemplate from '@/components/FormTemplate';
 const Form3 = () => {
   return (
     <FormTemplate 
-      title="Email Campaign Generator"
-      webhookUrl="https://hook.integromat.com/example-webhook-3"
+      title="Curiosity Headline"
+      webhookUrl="https://johnkh.app.n8n.cloud/webhook/4fb8ede3-a6f4-4669-a95a-cc6ee5b11922"
     />
   );
 };
