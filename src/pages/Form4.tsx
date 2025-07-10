@@ -3,8 +3,8 @@ import FormTemplate from '@/components/FormTemplate';
 const Form4 = () => {
   return (
     <FormTemplate 
-      title="Social Media Content Generator"
-      webhookUrl="https://hook.integromat.com/example-webhook-4"
+      title="Benefits Headline"
+      webhookUrl="https://johnkh.app.n8n.cloud/webhook/32e5c8d6-cc4a-41db-b868-0ad745e7884e"
     />
   );
 };

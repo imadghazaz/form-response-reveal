@@ -3,8 +3,8 @@ import FormTemplate from '@/components/FormTemplate';
 const Form2 = () => {
   return (
     <FormTemplate 
-      title="Course Content Generator"
-      webhookUrl="https://hook.integromat.com/example-webhook-2"
+      title="'How-To' Headline List"
+      webhookUrl="https://johnkh.app.n8n.cloud/webhook/e07f06f6-7648-490b-8779-bf078c26cd07"
     />
   );
 };
