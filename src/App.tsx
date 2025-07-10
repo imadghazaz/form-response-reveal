@@ -19,7 +19,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          {/* <Route path="/" element={<Index />} /> */}
           <Route path="/form1" element={<Form1 />} />
           <Route path="/form2" element={<Form2 />} />
           <Route path="/form3" element={<Form3 />} />
