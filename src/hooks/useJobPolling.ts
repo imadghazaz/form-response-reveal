@@ -124,7 +124,7 @@ export const useJobPolling = ({
         intervalRef.current = null;
       }
     };
-  }, [jobId, isPolling, checkJobStatus, pollingInterval, maxAttempts, attempts]);
+  }, [jobId, isPolling, checkJobStatus, pollingInterval, maxAttempts]);
 
   const startPolling = useCallback(() => {
     if (jobId) {
