@@ -113,6 +113,13 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
 
   const getProgressValue = () => {
     if (!jobStatus) return 10;
+    
+    // Use actual progress from API if available
+    if (jobStatus.progress !== undefined) {
+      return jobStatus.progress;
+    }
+    
+    // Fallback to status-based progress
     if (jobStatus.status === 'pending') return 25;
     if (jobStatus.status === 'processing') return 50;
     if (jobStatus.status === 'completed') return 100;
@@ -136,6 +143,12 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const getStatusMessage = () => {
     if (!jobStatus) return processingMessage;
     
+    // Use actual message from API if available
+    if (jobStatus.message) {
+      return jobStatus.message;
+    }
+    
+    // Fallback to status-based messages
     switch (jobStatus.status) {
       case 'pending':
         return 'Your request is queued and will start processing shortly...';
@@ -226,9 +239,16 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                 {jobStatus?.status === 'failed' ? 'Processing Failed' : 'Processing Your Request'}
               </h2>
               
-              <p className="text-gray-600 text-center mb-6 max-w-md">
-                {getStatusMessage()}
-              </p>
+              <div className="text-center mb-6 max-w-md">
+                <p className="text-gray-600 mb-2">
+                  {getStatusMessage()}
+                </p>
+                {jobStatus?.progress !== undefined && (
+                  <div className="text-sm text-blue-600 font-medium">
+                    {Math.round(getProgressValue())}% Complete
+                  </div>
+                )}
+              </div>
 
               {jobStatus?.status !== 'failed' && (
                 <div className="w-full max-w-md space-y-4">

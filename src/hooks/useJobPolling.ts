@@ -2,10 +2,12 @@
 import { useState, useEffect, useCallback } from 'react';
 
 interface JobStatus {
-  id: string;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  id?: string;
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
   result?: any[];
   error?: string;
+  message?: string;
+  progress?: number;
 }
 
 interface UseJobPollingProps {
