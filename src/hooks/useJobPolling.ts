@@ -27,6 +27,7 @@ export const useJobPolling = ({
   const [error, setError] = useState<string | null>(null);
 
   const checkJobStatus = useCallback(async () => {
+    console.log("checkJobStatus called")
     if (!jobId) return;
 
     try {
