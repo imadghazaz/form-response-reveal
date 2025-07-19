@@ -30,7 +30,7 @@ export const useJobPolling = ({
     if (!jobId) return;
 
     try {
-      const response = await fetch(`${statusWebhookUrl}/${jobId}`, {
+      const response = await fetch(`${statusWebhookUrl}?id=${jobId}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
