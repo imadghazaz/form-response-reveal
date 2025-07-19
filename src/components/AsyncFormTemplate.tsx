@@ -101,6 +101,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   };
 
   const getProgressValue = () => {
+    conosle.log("progress",jobStatus.progress,"status",jobStatus.status)
     if (!jobStatus) return 10;
     
     // Use actual progress from API if available
@@ -130,6 +131,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   };
 
   const getStatusMessage = () => {
+    conosle.log("message",jobStatus.message)
     if (!jobStatus) return processingMessage;
     
     // Use actual message from API if available
