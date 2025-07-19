@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -29,7 +28,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [jobId, setJobId] = useState<string | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-  const [hasStartedPolling, setHasStartedPolling] = useState(false);
   const { toast } = useToast();
 
   const { jobStatus, isPolling, error, startPolling, attempts, maxAttempts } = useJobPolling({
@@ -38,6 +36,13 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     pollingInterval: 6000, // 6 seconds for testing
     maxAttempts: 10 // 10 attempts = 1 minute total for testing
   });
+
+  // Auto-start polling when jobId becomes available
+  useEffect(() => {
+    if (jobId && hasSubmitted && !isPolling) {
+      startPolling();
+    }
+  }, [jobId, hasSubmitted, isPolling, startPolling]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,17 +79,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       if (data.jobId || data.id) {
         const id = data.jobId || data.id;
         setHasSubmitted(true);
-        setJobId(id);
-        
-        // Start polling immediately after setting jobId
-        // Only start if we haven't started polling yet
-        if (!hasStartedPolling) {
-          setHasStartedPolling(true);
-          // Small delay to ensure jobId is set
-          setTimeout(() => {
-            startPolling();
-          }, 100);
-        }
+        setJobId(id); // This will trigger the useEffect above to start polling
         
         toast({
           title: "Job Started!",
