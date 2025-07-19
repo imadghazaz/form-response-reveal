@@ -1,12 +1,14 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, Loader2, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { ArrowRight, Loader2, Clock, CheckCircle } from 'lucide-react';
 import { ResponseAccordion } from './ResponseAccordion';
 import { useToast } from '@/hooks/use-toast';
 import { useJobPolling } from '@/hooks/useJobPolling';
+import ProcessingFailure from './ProcessingFailure';
 
 interface AsyncFormTemplateProps {
   title: string;
@@ -33,8 +35,8 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const { jobStatus, isPolling, error, startPolling, attempts, maxAttempts } = useJobPolling({
     jobId,
     statusWebhookUrl,
-    pollingInterval: 6000, // 6 seconds for testing
-    maxAttempts: 10 // 10 attempts = 1 minute total for testing
+    pollingInterval: 6000,
+    maxAttempts: 10
   });
 
   // Auto-start polling when jobId becomes available
@@ -79,7 +81,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       if (data.jobId || data.id) {
         const id = data.jobId || data.id;
         setHasSubmitted(true);
-        setJobId(id); // This will trigger the useEffect above to start polling
+        setJobId(id);
         
         toast({
           title: "Job Started!",
@@ -101,15 +103,11 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   };
 
   const getProgressValue = () => {
-    
     if (!jobStatus) return 10;
-    console.log(jobStatus.status)
-    // Use actual progress from API if available
     if (jobStatus.progress !== undefined) {
       return jobStatus.progress;
     }
     
-    // Fallback to status-based progress
     if (jobStatus.status === 'pending') return 25;
     if (jobStatus.status === 'processing') return 50;
     if (jobStatus.status === 'completed') return 100;
@@ -117,29 +115,13 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     return 10;
   };
 
-  const getStatusIcon = () => {
-    if (!jobStatus || jobStatus.status === 'pending' || jobStatus.status === 'processing') {
-      return <Loader2 className="w-6 h-6 animate-spin text-blue-600" />;
-    }
-    if (jobStatus.status === 'completed') {
-      return <CheckCircle className="w-6 h-6 text-green-600" />;
-    }
-    if (jobStatus.status === 'failed') {
-      return <XCircle className="w-6 h-6 text-red-600" />;
-    }
-    return <Clock className="w-6 h-6 text-gray-600" />;
-  };
-
   const getStatusMessage = () => {
-    
     if (!jobStatus) return processingMessage;
     
-    // Use actual message from API if available
     if (jobStatus.message) {
       return jobStatus.message;
     }
     
-    // Fallback to status-based messages
     switch (jobStatus.status) {
       case 'pending':
         return 'Your request is queued and will start processing shortly...';
@@ -154,8 +136,13 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     }
   };
 
+  const handleRetry = () => {
+    window.location.reload();
+  };
+
   const isFormValid = webinarTopic.trim() && targetBuyer.trim();
 
+  // Show form if not submitted
   if (!hasSubmitted) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
@@ -218,98 +205,27 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     );
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
-      <div className="max-w-4xl mx-auto">
-        {jobStatus?.status !== 'completed' ? (
-          <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-            <div className="flex flex-col items-center justify-center py-12">
-              <div className="relative mb-8">
-                <div className="absolute inset-0 animate-ping rounded-full bg-primary/20 scale-110"></div>
-                <div className="relative z-10 p-4 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 backdrop-blur-sm">
-                  {getStatusIcon()}
-                </div>
-              </div>
-              
-              <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mt-4 mb-6 text-center animate-fade-in">
-                {jobStatus?.status === 'failed' ? 'Processing Failed' : 'Processing Your Request'}
-              </h2>
-              
-              <div className="text-center mb-8 max-w-lg">
-                <div className="relative">
-                  <p className="text-lg text-muted-foreground mb-4 transition-all duration-500 ease-in-out animate-fade-in">
-                    {getStatusMessage()}
-                  </p>
-                  <div className="absolute -top-2 -right-2 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                </div>
-                {jobStatus?.progress !== undefined && (
-                  <div className="text-base text-primary font-semibold animate-scale-in">
-                    {Math.round(getProgressValue())}% Complete
-                  </div>
-                )}
-              </div>
+  // Show failure state if timeout or failed
+  if (attempts >= maxAttempts || jobStatus?.status === 'failed' || error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+        <div className="max-w-4xl mx-auto">
+          <ProcessingFailure 
+            onRetry={handleRetry}
+            jobId={jobId || undefined}
+            attempts={attempts}
+            maxAttempts={maxAttempts}
+          />
+        </div>
+      </div>
+    );
+  }
 
-              {jobStatus?.status !== 'failed' && (
-                <div className="w-full max-w-lg space-y-6">
-                  <div className="relative">
-                    <Progress value={getProgressValue()} className="w-full h-3 shadow-lg" />
-                    <div className="absolute -top-1 -bottom-1 left-0 right-0 rounded-full bg-gradient-to-r from-primary/5 to-primary/10 animate-pulse"></div>
-                  </div>
-                  
-                  <div className="flex justify-between items-center text-sm font-medium">
-                    <span className="text-muted-foreground animate-fade-in">Progress</span>
-                    <span className="text-primary font-bold text-lg animate-scale-in">{Math.round(getProgressValue())}%</span>
-                  </div>
-                  
-                  <div className="text-center space-y-3">
-                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                      <Clock className="w-5 h-5 animate-pulse" />
-                      <span className="font-medium">Estimated time: {estimatedTime}</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-4 mt-6">
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-primary/5 animate-fade-in">
-                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mb-2">
-                          <div className="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Analyzing</span>
-                      </div>
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-primary/5 animate-fade-in delay-75">
-                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mb-2">
-                          <div className="w-3 h-3 rounded-full bg-primary animate-pulse delay-75"></div>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Processing</span>
-                      </div>
-                      <div className="flex flex-col items-center p-3 rounded-lg bg-primary/5 animate-fade-in delay-150">
-                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mb-2">
-                          <div className="w-3 h-3 rounded-full bg-primary animate-pulse delay-150"></div>
-                        </div>
-                        <span className="text-xs text-muted-foreground">Generating</span>
-                      </div>
-                    </div>
-                    
-                    <div className="mt-4 text-xs text-muted-foreground/70">
-                      <div>Status checks: {attempts}/{maxAttempts} | Polling: {isPolling ? 'Active' : 'Inactive'}</div>
-                      {jobId && (
-                        <div className="mt-1 opacity-50">Job ID: {jobId}</div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {(jobStatus?.status === 'failed' || error) && (
-                <Button
-                  onClick={() => window.location.reload()}
-                  className="mt-4"
-                  variant="outline"
-                >
-                  Try Again
-                </Button>
-              )}
-            </div>
-          </div>
-        ) : (
+  // Show completed state
+  if (jobStatus?.status === 'completed') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+        <div className="max-w-4xl mx-auto">
           <div className="space-y-8">
             <div className="bg-white rounded-xl shadow-lg p-8 gap-4 flex flex-col">
               <h2 className="text-2xl font-bold text-gray-900 mb-6">{title}</h2>
@@ -325,7 +241,44 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
               )}
             </div>
           </div>
-        )}
+        </div>
+      </div>
+    );
+  }
+
+  // Show processing state
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+          <div className="flex flex-col items-center justify-center py-12">
+            <div className="relative mb-8">
+              <div className="absolute inset-0 animate-ping rounded-full bg-primary/20 scale-110"></div>
+              <div className="relative z-10 p-4 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 backdrop-blur-sm">
+                <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+              </div>
+            </div>
+            
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-8 text-center animate-pulse">
+              {getStatusMessage()}
+            </h2>
+            
+            <div className="w-full max-w-lg mb-8">
+              <Progress value={getProgressValue()} className="w-full h-3 shadow-lg" />
+            </div>
+            
+            <div className="flex items-center justify-center gap-2 text-muted-foreground mb-6">
+              <Clock className="w-5 h-5" />
+              <span className="font-medium text-lg">Estimated time: {estimatedTime}</span>
+            </div>
+            
+            <div className="bg-blue-50 rounded-lg p-4 max-w-lg text-center border border-blue-100">
+              <p className="text-blue-800 font-medium">
+                Feel free to leave this page - we'll notify you when your content is ready!
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
