@@ -108,7 +108,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     if (jobStatus.progress !== undefined) {
       return jobStatus.progress;
     }
-    console.log("progress",jobStatus.progress,"status",jobStatus.status)
+    console.log(jobStatus.status)
     // Fallback to status-based progress
     if (jobStatus.status === 'pending') return 25;
     if (jobStatus.status === 'processing') return 50;
