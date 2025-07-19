@@ -46,7 +46,7 @@ export const useJobPolling = ({
     if (!jobId) {
       return;
     }
-
+    
     try {
       const response = await fetch(`${statusWebhookUrl}?id=${jobId}`, {
         method: 'GET',
