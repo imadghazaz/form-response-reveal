@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -38,6 +38,15 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   });
 
   console.log("Component render state:", { jobId, hasSubmitted, isPolling, attempts, jobStatus });
+
+  // Auto-start polling when jobId becomes available
+  useEffect(() => {
+    console.log("JobId useEffect triggered:", { jobId, hasSubmitted, isPolling });
+    if (jobId && hasSubmitted && !isPolling) {
+      console.log("Starting polling automatically due to jobId change");
+      startPolling();
+    }
+  }, [jobId, hasSubmitted, isPolling, startPolling]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,14 +88,8 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       if (data.jobId || data.id) {
         const id = data.jobId || data.id;
         console.log("Job ID received:", id);
-        setJobId(id);
         setHasSubmitted(true);
-        
-        // Start polling after setting jobId
-        setTimeout(() => {
-          console.log("Starting polling process");
-          startPolling();
-        }, 100);
+        setJobId(id); // This will trigger the useEffect above to start polling
         
         toast({
           title: "Job Started!",
