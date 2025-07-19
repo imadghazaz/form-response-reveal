@@ -42,7 +42,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     if (jobId && hasSubmitted && !isPolling) {
       startPolling();
     }
-  }, [jobId, hasSubmitted, isPolling, startPolling]);
+  }, [jobId, hasSubmitted, startPolling]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
