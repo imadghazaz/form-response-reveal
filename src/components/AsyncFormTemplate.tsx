@@ -37,13 +37,9 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     maxAttempts: 10 // 10 attempts = 1 minute total for testing
   });
 
-  console.log("Component render state:", { jobId, hasSubmitted, isPolling, attempts, jobStatus });
-
   // Auto-start polling when jobId becomes available
   useEffect(() => {
-    console.log("JobId useEffect triggered:", { jobId, hasSubmitted, isPolling });
     if (jobId && hasSubmitted && !isPolling) {
-      console.log("Starting polling automatically due to jobId change");
       startPolling();
     }
   }, [jobId, hasSubmitted, isPolling, startPolling]);
@@ -60,11 +56,9 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       return;
     }
 
-    console.log("Form submission started");
     setIsSubmitting(true);
 
     try {
-      console.log("Sending request to:", submitWebhookUrl);
       const response = await fetch(submitWebhookUrl, {
         method: 'POST',
         headers: {
@@ -76,18 +70,14 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
         }),
       });
 
-      console.log("Submit response:", response.status, response.ok);
-
       if (!response.ok) {
         throw new Error('Failed to submit form');
       }
 
       const data = await response.json();
-      console.log("Submit response data:", data);
       
       if (data.jobId || data.id) {
         const id = data.jobId || data.id;
-        console.log("Job ID received:", id);
         setHasSubmitted(true);
         setJobId(id); // This will trigger the useEffect above to start polling
         
@@ -100,7 +90,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       }
 
     } catch (error) {
-      console.error('Error submitting form:', error);
       toast({
         title: "Error",
         description: "Failed to submit request. Please try again.",
