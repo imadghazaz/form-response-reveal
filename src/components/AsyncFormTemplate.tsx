@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -34,9 +33,11 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const { jobStatus, isPolling, error, startPolling, attempts, maxAttempts } = useJobPolling({
     jobId,
     statusWebhookUrl,
-    pollingInterval: 6000, // 1 minute
-    maxAttempts: 1 // 10 minutes max
+    pollingInterval: 6000, // 6 seconds for testing
+    maxAttempts: 10 // 10 attempts = 1 minute total for testing
   });
+
+  console.log("Component render state:", { jobId, hasSubmitted, isPolling, attempts, jobStatus });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,9 +51,11 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       return;
     }
 
+    console.log("Form submission started");
     setIsSubmitting(true);
 
     try {
+      console.log("Sending request to:", submitWebhookUrl);
       const response = await fetch(submitWebhookUrl, {
         method: 'POST',
         headers: {
@@ -64,17 +67,26 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
         }),
       });
 
+      console.log("Submit response:", response.status, response.ok);
+
       if (!response.ok) {
         throw new Error('Failed to submit form');
       }
 
       const data = await response.json();
+      console.log("Submit response data:", data);
       
       if (data.jobId || data.id) {
         const id = data.jobId || data.id;
+        console.log("Job ID received:", id);
         setJobId(id);
         setHasSubmitted(true);
-        startPolling();
+        
+        // Start polling after setting jobId
+        setTimeout(() => {
+          console.log("Starting polling process");
+          startPolling();
+        }, 100);
         
         toast({
           title: "Job Started!",
@@ -229,11 +241,16 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                       <Clock className="w-4 h-4" />
                       <span>Estimated time: {estimatedTime}</span>
                     </div>
-                    {isPolling && (
-                      <div className="mt-2">
-                        Checking status... ({attempts}/{maxAttempts})
+                    <div className="mt-2">
+                      <div className="text-xs text-blue-600">
+                        Status checks: {attempts}/{maxAttempts} | Polling: {isPolling ? 'Active' : 'Inactive'}
                       </div>
-                    )}
+                      {jobId && (
+                        <div className="text-xs text-gray-400 mt-1">
+                          Job ID: {jobId}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
