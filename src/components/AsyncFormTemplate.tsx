@@ -224,46 +224,75 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       <div className="max-w-4xl mx-auto">
         {jobStatus?.status !== 'completed' ? (
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-            <div className="flex flex-col items-center justify-center py-8">
-              {getStatusIcon()}
+            <div className="flex flex-col items-center justify-center py-12">
+              <div className="relative mb-8">
+                <div className="absolute inset-0 animate-ping rounded-full bg-primary/20 scale-110"></div>
+                <div className="relative z-10 p-4 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 backdrop-blur-sm">
+                  {getStatusIcon()}
+                </div>
+              </div>
               
-              <h2 className="text-2xl font-bold text-gray-900 mt-4 mb-2 text-center">
+              <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mt-4 mb-6 text-center animate-fade-in">
                 {jobStatus?.status === 'failed' ? 'Processing Failed' : 'Processing Your Request'}
               </h2>
               
-              <div className="text-center mb-6 max-w-md">
-                <p className="text-gray-600 mb-2">
-                  {getStatusMessage()}
-                </p>
+              <div className="text-center mb-8 max-w-lg">
+                <div className="relative">
+                  <p className="text-lg text-muted-foreground mb-4 transition-all duration-500 ease-in-out animate-fade-in">
+                    {getStatusMessage()}
+                  </p>
+                  <div className="absolute -top-2 -right-2 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                </div>
                 {jobStatus?.progress !== undefined && (
-                  <div className="text-sm text-blue-600 font-medium">
+                  <div className="text-base text-primary font-semibold animate-scale-in">
                     {Math.round(getProgressValue())}% Complete
                   </div>
                 )}
               </div>
 
               {jobStatus?.status !== 'failed' && (
-                <div className="w-full max-w-md space-y-4">
-                  <Progress value={getProgressValue()} className="w-full" />
-                  
-                  <div className="flex justify-between text-sm text-gray-500">
-                    <span>Progress</span>
-                    <span>{Math.round(getProgressValue())}%</span>
+                <div className="w-full max-w-lg space-y-6">
+                  <div className="relative">
+                    <Progress value={getProgressValue()} className="w-full h-3 shadow-lg" />
+                    <div className="absolute -top-1 -bottom-1 left-0 right-0 rounded-full bg-gradient-to-r from-primary/5 to-primary/10 animate-pulse"></div>
                   </div>
                   
-                  <div className="text-center text-sm text-gray-500">
-                    <div className="flex items-center justify-center gap-2">
-                      <Clock className="w-4 h-4" />
-                      <span>Estimated time: {estimatedTime}</span>
+                  <div className="flex justify-between items-center text-sm font-medium">
+                    <span className="text-muted-foreground animate-fade-in">Progress</span>
+                    <span className="text-primary font-bold text-lg animate-scale-in">{Math.round(getProgressValue())}%</span>
+                  </div>
+                  
+                  <div className="text-center space-y-3">
+                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                      <Clock className="w-5 h-5 animate-pulse" />
+                      <span className="font-medium">Estimated time: {estimatedTime}</span>
                     </div>
-                    <div className="mt-2">
-                      <div className="text-xs text-blue-600">
-                        Status checks: {attempts}/{maxAttempts} | Polling: {isPolling ? 'Active' : 'Inactive'}
-                      </div>
-                      {jobId && (
-                        <div className="text-xs text-gray-400 mt-1">
-                          Job ID: {jobId}
+                    
+                    <div className="grid grid-cols-3 gap-4 mt-6">
+                      <div className="flex flex-col items-center p-3 rounded-lg bg-primary/5 animate-fade-in">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mb-2">
+                          <div className="w-3 h-3 rounded-full bg-primary animate-pulse"></div>
                         </div>
+                        <span className="text-xs text-muted-foreground">Analyzing</span>
+                      </div>
+                      <div className="flex flex-col items-center p-3 rounded-lg bg-primary/5 animate-fade-in delay-75">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mb-2">
+                          <div className="w-3 h-3 rounded-full bg-primary animate-pulse delay-75"></div>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Processing</span>
+                      </div>
+                      <div className="flex flex-col items-center p-3 rounded-lg bg-primary/5 animate-fade-in delay-150">
+                        <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center mb-2">
+                          <div className="w-3 h-3 rounded-full bg-primary animate-pulse delay-150"></div>
+                        </div>
+                        <span className="text-xs text-muted-foreground">Generating</span>
+                      </div>
+                    </div>
+                    
+                    <div className="mt-4 text-xs text-muted-foreground/70">
+                      <div>Status checks: {attempts}/{maxAttempts} | Polling: {isPolling ? 'Active' : 'Inactive'}</div>
+                      {jobId && (
+                        <div className="mt-1 opacity-50">Job ID: {jobId}</div>
                       )}
                     </div>
                   </div>
