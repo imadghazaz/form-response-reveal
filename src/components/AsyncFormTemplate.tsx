@@ -101,14 +101,14 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   };
 
   const getProgressValue = () => {
-    console.log("progress",jobStatus.progress,"status",jobStatus.status)
+    
     if (!jobStatus) return 10;
     
     // Use actual progress from API if available
     if (jobStatus.progress !== undefined) {
       return jobStatus.progress;
     }
-    
+    console.log("progress",jobStatus.progress,"status",jobStatus.status)
     // Fallback to status-based progress
     if (jobStatus.status === 'pending') return 25;
     if (jobStatus.status === 'processing') return 50;
@@ -131,11 +131,12 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   };
 
   const getStatusMessage = () => {
-    console.log("message",jobStatus.message)
+    
     if (!jobStatus) return processingMessage;
     
     // Use actual message from API if available
     if (jobStatus.message) {
+      console.log("message",jobStatus.message)
       return jobStatus.message;
     }
     
