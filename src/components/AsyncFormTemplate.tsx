@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, Loader2, Clock, CheckCircle } from 'lucide-react';
+import { ArrowRight, Loader2, Clock, CheckCircle, Bot } from 'lucide-react';
 import { ResponseAccordion } from './ResponseAccordion';
 import { useToast } from '@/hooks/use-toast';
 import { useJobPolling } from '@/hooks/useJobPolling';
@@ -252,28 +252,32 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="relative mb-8">
-              <div className="absolute inset-0 animate-ping rounded-full bg-primary/20 scale-110"></div>
-              <div className="relative z-10 p-4 rounded-full bg-gradient-to-br from-primary/10 to-primary/20 backdrop-blur-sm">
-                <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
-              </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+              Processing Your Request
+            </h1>
+            
+            <div className="bg-blue-50 rounded-lg p-4 mb-8 max-w-lg border border-blue-100 flex items-start gap-3">
+              <Bot className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+              <p className="text-blue-800 font-medium text-sm">
+                {getStatusMessage()}
+              </p>
             </div>
             
-            <h2 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent mb-8 text-center animate-pulse">
-              {getStatusMessage()}
-            </h2>
-            
-            <div className="w-full max-w-lg mb-8">
+            <div className="w-full max-w-lg mb-2">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-gray-700">Progress</span>
+                <span className="text-sm font-medium text-gray-700">{getProgressValue()}%</span>
+              </div>
               <Progress value={getProgressValue()} className="w-full h-3 shadow-lg" />
             </div>
             
             <div className="flex items-center justify-center gap-2 text-muted-foreground mb-6">
-              <Clock className="w-5 h-5" />
-              <span className="font-medium text-lg">Estimated time: {estimatedTime}</span>
+              <Clock className="w-4 h-4" />
+              <span className="font-medium text-sm">Estimated time: {estimatedTime}</span>
             </div>
             
-            <div className="bg-blue-50 rounded-lg p-4 max-w-lg text-center border border-blue-100">
-              <p className="text-blue-800 font-medium">
+            <div className="bg-green-50 rounded-lg p-4 max-w-lg text-center border border-green-100">
+              <p className="text-green-800 font-medium text-sm">
                 Feel free to leave this page - we'll notify you when your content is ready!
               </p>
             </div>
