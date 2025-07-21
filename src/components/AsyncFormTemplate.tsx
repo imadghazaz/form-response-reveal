@@ -252,16 +252,17 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="flex flex-col items-center justify-center py-12">
-            <div className="relative mb-6">
-              <div className="absolute inset-0 animate-ping rounded-full bg-blue-200/50 scale-110"></div>
-              <div className="relative z-10 p-3 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 backdrop-blur-sm">
-                <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+            <div className="flex items-center gap-4 mb-4">
+              <div className="relative">
+                <div className="absolute inset-0 animate-ping rounded-full bg-blue-200/50 scale-110"></div>
+                <div className="relative z-10 p-3 rounded-full bg-gradient-to-br from-blue-100 to-blue-200 backdrop-blur-sm">
+                  <Loader2 className="w-5 h-5 animate-spin text-blue-600" />
+                </div>
               </div>
+              <h1 className="text-3xl font-bold text-gray-900 text-center">
+                Processing Your Request
+              </h1>
             </div>
-            
-            <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
-              Processing Your Request
-            </h1>
             
             <div className="bg-blue-50 rounded-lg p-4 mb-4 max-w-lg border border-blue-100 flex items-start gap-3 animate-pulse">
               <Bot className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
