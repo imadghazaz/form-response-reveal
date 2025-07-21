@@ -252,11 +252,11 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="flex flex-col items-center justify-center py-12">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-4 text-center">
               Processing Your Request
             </h1>
             
-            <div className="bg-blue-50 rounded-lg p-4 mb-8 max-w-lg border border-blue-100 flex items-start gap-3">
+            <div className="bg-blue-50 rounded-lg p-4 mb-4 max-w-lg border border-blue-100 flex items-start gap-3 animate-pulse">
               <Bot className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
               <p className="text-blue-800 font-medium text-sm">
                 {getStatusMessage()}
