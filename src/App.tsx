@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from "./pages/NotFound";
 import AsyncForm from "./pages/AsyncForm";
-import SyncForm from "./pages/syncForm";
+import SyncForm from "./pages/SyncForm";
 
 const queryClient = new QueryClient();
 
