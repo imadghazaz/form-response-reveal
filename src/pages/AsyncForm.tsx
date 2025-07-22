@@ -1,7 +1,7 @@
 
 import AsyncFormTemplate from '@/components/AsyncFormTemplate';
 
-const Form5 = () => {
+const AsyncForm = () => {
   return (
     <AsyncFormTemplate 
       title="Trend Analysis Generator"
@@ -13,4 +13,4 @@ const Form5 = () => {
   );
 };
 
-export default Form5;
+export default AsyncForm;
