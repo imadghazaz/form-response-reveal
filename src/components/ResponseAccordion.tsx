@@ -184,38 +184,42 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses,
                 <div className="w-full">
                   <div className="flex w-full flex-col gap-4">
                     <div className="flex flex-col gap-4">
-                      <div>
-                        <div className="relative w-full">
-                          <div className="group flex flex-col w-full">
-                            <Label className="text-sm text-gray-500 pb-1.5">
-                              Your Webinar Topic Framing Eg."10 Minute Workout Routines" *
-                            </Label>
-                            <div className="w-full inline-flex items-center bg-gray-200 rounded-md py-1 px-3 shadow-sm">
-                              <Textarea
-                                value={response.details.webinarTopic}
-                                readOnly
-                                className="w-fullh-[40px] py-0 bg-transparent border-none resize-none focus:outline-none text-sm h-6"
-                              />
+                      {response.details.webinarTopic && 
+                        <div>
+                          <div className="relative w-full">
+                            <div className="group flex flex-col w-full">
+                              <Label className="text-sm text-gray-500 pb-1.5">
+                                Your Webinar Topic Framing Eg."10 Minute Workout Routines" *
+                              </Label>
+                              <div className="w-full inline-flex items-center bg-gray-200 rounded-md py-1 px-3 shadow-sm">
+                                <Textarea
+                                  value={response.details.webinarTopic}
+                                  readOnly
+                                  className="w-fullh-[40px] py-0 bg-transparent border-none resize-none focus:outline-none text-sm h-6"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div>
-                        <div className="relative w-full">
-                          <div className="group flex flex-col w-full">
-                            <Label className="text-sm text-gray-500 pb-1.5">
-                              Your Ideal Target Buyer Eg. Working Mums *
-                            </Label>
-                            <div className="w-full inline-flex items-center bg-gray-200 rounded-md py-1 px-3 shadow-sm">
-                              <Textarea
-                                value={response.details.targetBuyer}
-                                readOnly
-                                className="w-full h-[40px] py-0 bg-transparent border-none resize-none focus:outline-none text-sm h-6"
-                              />
+                      }
+                      {response.details.targetBuyer && 
+                        <div>
+                          <div className="relative w-full">
+                            <div className="group flex flex-col w-full">
+                              <Label className="text-sm text-gray-500 pb-1.5">
+                                Your Ideal Target Buyer Eg. Working Mums *
+                              </Label>
+                              <div className="w-full inline-flex items-center bg-gray-200 rounded-md py-1 px-3 shadow-sm">
+                                <Textarea
+                                  value={response.details.targetBuyer}
+                                  readOnly
+                                  className="w-full h-[40px] py-0 bg-transparent border-none resize-none focus:outline-none text-sm h-6"
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      }
                     </div>
                   </div>
                 </div>
