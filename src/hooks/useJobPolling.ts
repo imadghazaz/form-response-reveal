@@ -20,7 +20,7 @@ interface UseJobPollingProps {
 export const useJobPolling = ({
   jobId,
   statusWebhookUrl,
-  pollingInterval = 6000, // 6 seconds for testing
+  pollingInterval = 60000, // 6 seconds for testing
   maxAttempts = 10 // 10 attempts = 1 minute max
 }: UseJobPollingProps) => {
   const [jobStatus, setJobStatus] = useState<JobStatus | null>(null);
