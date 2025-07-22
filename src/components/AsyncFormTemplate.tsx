@@ -22,8 +22,8 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   title, 
   submitWebhookUrl, 
   statusWebhookUrl,
-  processingMessage = "We're generating your content. This usually takes 2–5 minutes.",
-  estimatedTime = "2–5 minutes"
+  processingMessage,
+  estimatedTime
 }) => {
   const [webinarTopic, setWebinarTopic] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
