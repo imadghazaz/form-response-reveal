@@ -6,13 +6,13 @@ import { marked } from "marked";
 import { Textarea } from './ui/textarea';
 import { Label } from './ui/label';
 
-interface WebhookResponse {
+export interface WebhookResponse {
   title: string;
-  details: any;
+  details: string | any;
 }
 
 interface ResponseAccordionProps {
-  responses: WebhookResponse[];
+  responses: any;
   input: boolean;
 }
 
@@ -30,10 +30,11 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses,
     setOpenItems(newOpenItems);
   };
 
-  const handleCopy = async (content: string, title: string) => {
+  const handleCopy = async (content: string | any, title: string) => {
     try {
-      console.log(content);
-      await navigator.clipboard.writeText(content);
+      const textContent = typeof content === 'string' ? content : JSON.stringify(content, null, 2);
+      console.log(textContent);
+      await navigator.clipboard.writeText(textContent);
       toast({
         title: "Copied!",
         description: `${title} content copied to clipboard.`,
@@ -133,7 +134,7 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses,
 
                 <div
                   className="prose prose-sm max-w-none space-y-3"
-                  dangerouslySetInnerHTML={{ __html: marked.parse(response.details) }}
+                  dangerouslySetInnerHTML={{ __html: marked.parse(typeof response.details === 'string' ? response.details : JSON.stringify(response.details, null, 2)) }}
                 />
               </div>
             </div>
