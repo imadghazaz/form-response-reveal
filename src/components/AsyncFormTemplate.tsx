@@ -136,6 +136,17 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     }
   };
 
+  const parseJobResult = (result: string): any[] => {
+    try {
+      const parsed = JSON.parse(result);
+      // Ensure we always return an array
+      return Array.isArray(parsed) ? parsed : [parsed];
+    } catch (error) {
+      console.error('Failed to parse job result:', error);
+      return [];
+    }
+  };
+
   const handleRetry = () => {
     window.location.reload();
   };
@@ -237,7 +248,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                 input={true}
               />
               {jobStatus?.result && (
-                <ResponseAccordion responses={JSON.parse(jobStatus.result)} input={false} />
+                <ResponseAccordion responses={parseJobResult(jobStatus.result)} input={false} />
               )}
             </div>
           </div>
