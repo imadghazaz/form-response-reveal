@@ -12,7 +12,7 @@ interface WebhookResponse {
 }
 
 interface ResponseAccordionProps {
-  responses: WebhookResponse[];
+  responses: any;
   input: boolean;
 }
 
@@ -123,7 +123,7 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses,
                       variant="outline"
                       size="sm"
                       className="h-8 px-3 text-xs"
-                      onClick={() => handleCopy(response.details, response.title)}
+                      onClick={() => handleCopy(typeof response.details === 'string' ? response.details : JSON.stringify(response.details), response.title)}
                     >
                       <Copy className="h-3 w-3 mr-1" />
                       Copy
@@ -133,7 +133,7 @@ export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses,
 
                 <div
                   className="prose prose-sm max-w-none space-y-3"
-                  dangerouslySetInnerHTML={{ __html: marked.parse(response.details) }}
+                  dangerouslySetInnerHTML={{ __html: marked.parse(typeof response.details === 'string' ? response.details : JSON.stringify(response.details)) }}
                 />
               </div>
             </div>
