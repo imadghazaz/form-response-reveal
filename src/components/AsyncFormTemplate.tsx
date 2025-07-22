@@ -26,7 +26,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   estimatedTime = "2–5 minutes"
 }) => {
   const [webinarTopic, setWebinarTopic] = useState('');
-  const [targetBuyer, setTargetBuyer] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [jobId, setJobId] = useState<string | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -49,7 +48,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!webinarTopic.trim() || !targetBuyer.trim()) {
+    if (!webinarTopic.trim()) {
       toast({
         title: "Missing Information",
         description: "Please fill in both fields before submitting.",
@@ -68,7 +67,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
         },
         body: JSON.stringify({
           webinarTopic,
-          targetBuyer,
         }),
       });
 
@@ -140,7 +138,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     window.location.reload();
   };
 
-  const isFormValid = webinarTopic.trim() && targetBuyer.trim();
+  const isFormValid = webinarTopic.trim();
 
   // Show form if not submitted
   if (!hasSubmitted) {
@@ -162,20 +160,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                   placeholder="Type here"
                   value={webinarTopic}
                   onChange={(e) => setWebinarTopic(e.target.value)}
-                  className="min-h-[40px] resize-none"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="target-buyer" className="text-base font-medium text-gray-700">
-                  Your Ideal Target Buyer Eg. Working Mums *
-                </Label>
-                <Textarea
-                  id="target-buyer"
-                  placeholder="Type here"
-                  value={targetBuyer}
-                  onChange={(e) => setTargetBuyer(e.target.value)}
                   className="min-h-[40px] resize-none"
                   required
                 />
@@ -232,7 +216,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
               <ResponseAccordion 
                 responses={[{
                   title: "User Input - Webinar Topic Framing",
-                  details: { webinarTopic, targetBuyer }
+                  details: { webinarTopic }
                 }]} 
                 input={true}
               />
