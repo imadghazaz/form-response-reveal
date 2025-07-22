@@ -17,7 +17,7 @@ const ProcessingFailure: React.FC<ProcessingFailureProps> = ({
   maxAttempts 
 }) => {
   return (
-    <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+    <div className="bg-white rounded-xl shadow-lg p-8 mb-8" >
       <div className="flex flex-col items-center justify-center py-12">
         <div className="relative mb-8">
           <div className="p-6 rounded-full bg-red-50 border-4 border-red-100">
