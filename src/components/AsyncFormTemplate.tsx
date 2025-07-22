@@ -143,7 +143,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   // Show form if not submitted
   if (!hasSubmitted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }} >
+      <div className="min-h-screen py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }} >
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
             <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
@@ -192,7 +192,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   // Show failure state if timeout or failed
   if (attempts >= maxAttempts || jobStatus?.status === 'failed' || error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
+      <div className="min-h-screen py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
         <div className="max-w-4xl mx-auto">
           <ProcessingFailure 
             onRetry={handleRetry}
@@ -208,7 +208,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   // Show completed state
   if (jobStatus?.status === 'completed') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
+      <div className="min-h-screen py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
         <div className="max-w-4xl mx-auto">
           <div className="space-y-8">
             <div className="bg-white rounded-xl shadow-lg p-8 gap-4 flex flex-col">
@@ -232,7 +232,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
 
   // Show processing state
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
+    <div className="min-h-screen  py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
           <div className="flex flex-col items-center justify-center py-12">

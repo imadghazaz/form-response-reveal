@@ -82,7 +82,7 @@ const FormTemplate: React.FC<FormTemplateProps> = ({ title, webhookUrl }) => {
   const isFormValid = webinarTopic.trim() && targetBuyer.trim();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
+    <div className="min-h-screen  py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }}>
       <div className="max-w-4xl mx-auto">
         {!hasSubmitted ? (
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
