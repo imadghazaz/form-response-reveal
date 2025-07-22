@@ -35,7 +35,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const { jobStatus, isPolling, error, startPolling, attempts, maxAttempts } = useJobPolling({
     jobId,
     statusWebhookUrl,
-    pollingInterval: 3000,
+    pollingInterval: 30000,
     maxAttempts: 20
   });
 
