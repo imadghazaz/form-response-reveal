@@ -237,7 +237,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                 input={true}
               />
               {jobStatus?.result && (
-                <ResponseAccordion responses={jobStatus.result} input={false} />
+                <ResponseAccordion responses={JSON.parse(jobStatus.result)} input={false} />
               )}
             </div>
           </div>
