@@ -17,6 +17,8 @@ interface ResponseAccordionProps {
 }
 
 export const ResponseAccordion: React.FC<ResponseAccordionProps> = ({ responses, input }) => {
+  console.log('ResponseAccordion received:', { responses, input, type: typeof responses, isArray: Array.isArray(responses) });
+  
   const [openItems, setOpenItems] = useState<Set<number>>(new Set([0]));
   const { toast } = useToast();
 
