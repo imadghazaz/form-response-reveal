@@ -7,7 +7,7 @@ const AsyncForm = () => {
       title="'Slam Dunk’ Webinar Topics."
       submitWebhookUrl="https://johnkh.app.n8n.cloud/webhook/d652bf18-0e31-44ac-ab33-8454b953a20f"
       statusWebhookUrl="https://johnkh.app.n8n.cloud/webhook/1f25a3bc-8f1c-4e24-a624-ec3baf891c14"
-      processingMessage="Hold tight — we're generating your Webinar Topic Analysis. \n It’ll take 2–5 minutes. Best to keep this page open so we can drop it in when it's ready!"
+      processingMessage="Hold tight — we're generating your Webinar Topic Analysis."
       estimatedTime="2–5 minutes"
     />
   );
