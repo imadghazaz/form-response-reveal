@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -34,8 +35,8 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const { jobStatus, isPolling, error, startPolling, attempts, maxAttempts } = useJobPolling({
     jobId,
     statusWebhookUrl,
-    pollingInterval: 60000,
-    maxAttempts: 10
+    pollingInterval: 3000,
+    maxAttempts: 20
   });
 
   // Auto-start polling when jobId becomes available
@@ -98,33 +99,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       });
     } finally {
       setIsSubmitting(false);
-    }
-  };
-
-  const parseJobResult = (result: any) => {
-    try {
-      // If result is already an array, return it
-      if (Array.isArray(result)) {
-        return result;
-      }
-      
-      // If result is a string, try to parse it as JSON
-      if (typeof result === 'string') {
-        const parsed = JSON.parse(result);
-        return Array.isArray(parsed) ? parsed : [parsed];
-      }
-      
-      // If result is an object, wrap it in an array
-      if (typeof result === 'object' && result !== null) {
-        return [result];
-      }
-      
-      // Fallback: return empty array
-      console.warn('Unexpected result format:', result);
-      return [];
-    } catch (error) {
-      console.error('Failed to parse job result:', error);
-      return [];
     }
   };
 
@@ -249,8 +223,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
 
   // Show completed state
   if (jobStatus?.status === 'completed') {
-    const parsedResult = parseJobResult(jobStatus.result);
-    
     return (
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
         <div className="max-w-4xl mx-auto">
@@ -264,8 +236,8 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                 }]} 
                 input={true}
               />
-              {parsedResult.length > 0 && (
-                <ResponseAccordion responses={parsedResult} input={false} />
+              {jobStatus?.result && (
+                <ResponseAccordion responses={jobStatus.result} input={false} />
               )}
             </div>
           </div>
