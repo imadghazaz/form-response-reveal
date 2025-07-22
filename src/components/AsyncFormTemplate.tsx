@@ -35,7 +35,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const { jobStatus, isPolling, error, startPolling, attempts, maxAttempts } = useJobPolling({
     jobId,
     statusWebhookUrl,
-    pollingInterval: 6000,
+    pollingInterval: 60000,
     maxAttempts: 10
   });
 
@@ -133,17 +133,6 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
         return jobStatus.error || 'An error occurred while processing your request.';
       default:
         return processingMessage;
-    }
-  };
-
-  const parseJobResult = (result: string): any[] => {
-    try {
-      const parsed = JSON.parse(result);
-      // Ensure we always return an array
-      return Array.isArray(parsed) ? parsed : [parsed];
-    } catch (error) {
-      console.error('Failed to parse job result:', error);
-      return [];
     }
   };
 
@@ -248,7 +237,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                 input={true}
               />
               {jobStatus?.result && (
-                <ResponseAccordion responses={parseJobResult(jobStatus.result)} input={false} />
+                <ResponseAccordion responses={jobStatus.result} input={false} />
               )}
             </div>
           </div>
