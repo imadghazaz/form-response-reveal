@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, Loader2, Clock, CheckCircle, Bot } from 'lucide-react';
+import { ArrowRight, Loader2, Clock, CheckCircle, Bot, Lightbulb } from 'lucide-react';
 import { ResponseAccordion } from './ResponseAccordion';
 import { useToast } from '@/hooks/use-toast';
 import { useJobPolling } from '@/hooks/useJobPolling';
@@ -163,9 +163,12 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <p className="text-gray-900 mb-4">
-                  Just enter your high-level topic idea — not a finished headline. Examples: "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement"
-                </p>
+                <div className="flex items-start gap-2 mb-4">
+                  <Lightbulb className="w-5 h-5 text-amber-600 mt-0.5 flex-shrink-0" />
+                  <p className="text-gray-900 font-bold">
+                    Just enter your high-level topic idea — not a finished headline. Examples: "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement"
+                  </p>
+                </div>
                 <Textarea
                   id="webinar-topic"
                   placeholder="Type here"
