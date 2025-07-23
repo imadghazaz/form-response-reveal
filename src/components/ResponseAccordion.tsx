@@ -12,7 +12,7 @@ interface WebhookResponse {
 }
 
 interface ResponseAccordionProps {
-  responses: WebhookResponse[];
+  responses: WebhookResponse[] | any[];
   input: boolean;
 }
 

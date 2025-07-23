@@ -150,19 +150,29 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
               {title}
             </h1>
             
-            <div className="text-center mb-6">
-              <p className="text-lg text-gray-700 mb-2">
-                Build a Webinar People Actually Want.
-              </p>
-              <p className="text-gray-600">
-                This tool searches YouTube for high-demand "how to" topics — so you can frame your webinar angle around what's already proven to work.
-              </p>
+            <div className="text-center mb-8">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-6 mb-6">
+                <h2 className="text-xl font-semibold text-gray-800 mb-3">
+                  Build a Webinar People Actually Want.
+                </h2>
+                <p className="text-gray-600 leading-relaxed">
+                  This tool searches YouTube for high-demand "how to" topics — so you can frame your webinar angle around what's already proven to work.
+                </p>
+              </div>
             </div>
             
-            <div className="text-left mb-8">
-              <p className="text-gray-700">
-                🔍 Just enter your high-level topic idea — not a finished headline. (Think: "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement")
-              </p>
+            <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mb-8 rounded-r-lg">
+              <div className="flex items-start">
+                <div className="text-2xl mr-3">🔍</div>
+                <div>
+                  <p className="text-amber-800 font-medium mb-1">Getting Started</p>
+                  <p className="text-amber-700 text-sm leading-relaxed">
+                    Just enter your high-level topic idea — not a finished headline. 
+                    <br />
+                    <span className="font-medium">Examples:</span> "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement"
+                  </p>
+                </div>
+              </div>
             </div>
             
             <form onSubmit={handleSubmit} className="space-y-6">
