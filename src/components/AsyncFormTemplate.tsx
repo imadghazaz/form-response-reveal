@@ -146,9 +146,24 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
       <div className="min-h-screen py-8 px-4" style={{ backgroundColor: 'rgb(246, 246, 246)' }} >
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+            <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
               {title}
             </h1>
+            
+            <div className="text-center mb-6">
+              <p className="text-lg text-gray-700 mb-2">
+                Build a Webinar People Actually Want.
+              </p>
+              <p className="text-gray-600">
+                This tool searches YouTube for high-demand "how to" topics — so you can frame your webinar angle around what's already proven to work.
+              </p>
+            </div>
+            
+            <div className="text-left mb-8">
+              <p className="text-gray-700">
+                🔍 Just enter your high-level topic idea — not a finished headline. (Think: "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement")
+              </p>
+            </div>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
