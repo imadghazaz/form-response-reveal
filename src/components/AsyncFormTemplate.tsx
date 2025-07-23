@@ -161,25 +161,11 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
               </div>
             </div>
             
-            <div className="bg-amber-50 border-l-4 border-amber-400 p-4 mb-8 rounded-r-lg">
-              <div className="flex items-start">
-                <div className="text-2xl mr-3">🔍</div>
-                <div>
-                  <p className="text-amber-800 font-medium mb-1">Getting Started</p>
-                  <p className="text-amber-700 text-sm leading-relaxed">
-                    Just enter your high-level topic idea — not a finished headline. 
-                    <br />
-                    <span className="font-medium">Examples:</span> "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement"
-                  </p>
-                </div>
-              </div>
-            </div>
-            
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="webinar-topic" className="text-base font-medium text-gray-700">
-                  Your Webinar Topic Framing Eg. "10 Minute Workout Routines" *
-                </Label>
+                <p className="text-gray-900 mb-4">
+                  Just enter your high-level topic idea — not a finished headline. Examples: "Dog Obedience Training", "Grow Organic Tomatoes", "Golf Driving Improvement"
+                </p>
                 <Textarea
                   id="webinar-topic"
                   placeholder="Type here"
@@ -246,7 +232,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                 input={true}
               />
               {jobStatus?.result && (
-                <ResponseAccordion responses={JSON.parse(jobStatus.result)} input={false} />
+                <ResponseAccordion responses={typeof jobStatus.result === 'string' ? JSON.parse(jobStatus.result) : jobStatus.result} input={false} />
               )}
             </div>
           </div>
