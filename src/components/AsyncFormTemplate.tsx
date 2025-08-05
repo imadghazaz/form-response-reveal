@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Progress } from '@/components/ui/progress';
 import { ArrowRight, Loader2, Clock, CheckCircle, Bot, Lightbulb } from 'lucide-react';
@@ -26,6 +27,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   estimatedTime
 }) => {
   const [webinarTopic, setWebinarTopic] = useState('');
+  const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [jobId, setJobId] = useState<string | null>(null);
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -48,7 +50,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!webinarTopic.trim()) {
+    if (!webinarTopic.trim() || !email.trim()) {
       toast({
         title: "Missing Information",
         description: "Please fill in both fields before submitting.",
@@ -67,6 +69,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
         },
         body: JSON.stringify({
           webinarTopic,
+          email,
         }),
       });
 
@@ -138,7 +141,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
     window.location.reload();
   };
 
-  const isFormValid = webinarTopic.trim();
+  const isFormValid = webinarTopic.trim() && email.trim();
 
   // Show form if not submitted
   if (!hasSubmitted) {
@@ -175,6 +178,20 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
                   value={webinarTopic}
                   onChange={(e) => setWebinarTopic(e.target.value)}
                   className="min-h-[40px] resize-none"
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                  Email Address
+                </Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
@@ -230,7 +247,7 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
               <ResponseAccordion 
                 responses={[{
                   title: "User Input - Webinar Topic Framing",
-                  details: { webinarTopic }
+                  details: { webinarTopic, email }
                 }]} 
                 input={true}
               />
