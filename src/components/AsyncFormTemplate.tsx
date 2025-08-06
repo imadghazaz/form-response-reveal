@@ -301,8 +301,8 @@ const AsyncFormTemplate: React.FC<AsyncFormTemplateProps> = ({
             
             <div className="bg-green-50 rounded-lg p-4 max-w-lg text-center border border-green-100">
               <p className="text-green-800 font-medium text-sm">
-               Hold tight — we're generating your Webinar Topic Analysis. <br/>It’ll take {estimatedTime}. Best to keep this page open so we can drop it in when it's ready!
-              </p>
+               Hang tight — your Webinar Topic Analysis is on the way! <br/>
+               You can keep this page open, or feel free to leave — we’ll also email you a copy of the results as soon as they’re ready.              </p>
             </div>
           </div>
         </div>
